@@ -9,7 +9,8 @@ import authenticateUser from '../../middlewares/authenticate';
 const router = express.Router();
 
 
-router.post('/blogs', authenticateUser, validateRequest(blogValidation.blogValidationSchema), blogController.createBlogPost);
+router.post('/', authenticateUser, validateRequest(blogValidation.blogValidationSchema), blogController.createBlogPost);
+router.put('/:id', authenticateUser, validateRequest(blogValidation.blogValidationSchema), blogController.updateBlog);
 
 
 
