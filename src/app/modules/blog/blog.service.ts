@@ -13,8 +13,13 @@ const updateBlogById = async (blogId: string, updateData: { title?: string; cont
     return blogModel.findByIdAndUpdate(blogId, updateData, { new: true }).populate('author', 'name email');
 }
 
+const deleteBlogById = async (blogId: string) => {
+    return blogModel.findByIdAndDelete(blogId);
+};
+
 export const blogService = {
     createBlog,
     updateBlogById,
-    findBlogById
+    findBlogById,
+    deleteBlogById
 }

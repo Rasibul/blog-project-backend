@@ -39,14 +39,40 @@ const updateBlog = catchAsync(async (req, res) => {
     // Update the blog
     const updatedBlog = await blogService.updateBlogById(blogId, updateData);
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: 'Blog updated successfully',
         data: updatedBlog,
     });
 });
 
+const deleteBlog = catchAsync(async (req, res) => {
+    const blogId = req.params.id;
+    const userId = req.user.id; // Logged-in user ID
+
+    // Find the blog
+    const blog = await blogService.findBlogById(blogId);
+    if (!blog) {
+        throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
+    }
+
+    // Ensure the blog belongs to the logged-in user
+    if (blog.author.toString() !== userId) {
+        throw new AppError(httpStatus.FORBIDDEN, 'You can only delete your own blog');
+    }
+
+    // Delete the blog
+    await blogService.deleteBlogById(blogId);
+
+    res.status(200).json({
+        success: true,
+        message: 'Blog deleted successfully',
+    });
+});
+
 export const blogController = {
     createBlogPost,
-    updateBlog
+    updateBlog,
+    deleteBlog
 };

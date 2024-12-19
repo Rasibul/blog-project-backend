@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.post('/', authenticateUser, validateRequest(blogValidation.blogValidationSchema), blogController.createBlogPost);
 router.put('/:id', authenticateUser, validateRequest(blogValidation.blogValidationSchema), blogController.updateBlog);
+router.delete('/:id', authenticateUser, blogController.deleteBlog);
 
 
 
