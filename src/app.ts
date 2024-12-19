@@ -1,5 +1,8 @@
 import cors from 'cors';
 import express, { Application } from 'express';
+import router from './app/routes';
+import globalErrorHandler from './app/middlewares/globalErrorhandler';
+import notFound from './app/middlewares/notFound';
 const app: Application = express();
 
 // parser
@@ -12,10 +15,13 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Blog Project!');
 });
 
-// // routes for biCycleStore
-// app.use('/api/products', BiCycleStoreRoutes);
+// application routes
+app.use('/api', router);
 
-// // routes for orders
-// app.use('/api/orders', OrderRoutes);
+
+app.use(globalErrorHandler);
+
+//Not Found
+app.use(notFound);
 
 export default app;
