@@ -7,7 +7,10 @@ import { userValidation } from './user.validation';
 const router = express.Router();
 
 // User Registration
-router.post('/', validateRequest(userValidation.userValidaitionSchema), userController.registerUser);
+router.post('/register', validateRequest(userValidation.userValidaitionSchema), userController.registerUser);
+
+// User Login
+router.post('/login', validateRequest(userValidation.loginValidationSchema), userController.loginUser);
 
 
 
