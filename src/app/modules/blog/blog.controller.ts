@@ -96,9 +96,22 @@ const fetchBlogs = catchAsync(async (req, res) => {
     });
 });
 
+const blockUserController = catchAsync(async (req, res) => {
+    console.log(req.body)
+    const { userId } = req.body;
+    const blockedUser = await blogService.blockUser(userId);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'User blocked successfully',
+        data: blockedUser
+    })
+})
+
 export const blogController = {
     createBlogPost,
     updateBlog,
     deleteBlog,
-    fetchBlogs
+    fetchBlogs,
+    blockUserController
 };

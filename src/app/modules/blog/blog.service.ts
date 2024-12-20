@@ -1,3 +1,6 @@
+import httpStatus from "http-status";
+import AppError from "../../errors/AppError";
+import { userModel } from "../user/user.model";
 import { TBlog } from "./blog.interface";
 import { blogModel } from "./blog.model";
 
@@ -45,10 +48,24 @@ const getAllBlogs = async (filters: any, sort: any) => {
     return blogModel.find(query).populate('author', 'name email').sort(sortConfig);
 };
 
+const blockUser = async (userId: string) => {
+    const user = await userModel.findById(userId);
+    console.log(user)
+    if (!user) {
+        throw new AppError(httpStatus.NOT_FOUND, "User not found");
+
+    }
+    user.isBlocked = true;
+    await user.save();
+    return user;
+}
+
+
 export const blogService = {
     createBlog,
     updateBlogById,
     findBlogById,
     deleteBlogById,
-    getAllBlogs
+    getAllBlogs,
+    blockUser
 }
