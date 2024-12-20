@@ -12,7 +12,7 @@ const createBlogPost = catchAsync(async (req, res) => {
     const populatedBlog = await blogModel.findById(blog._id).populate('author', 'name email');
 
     sendResponse(res, {
-        statusCode: httpStatus.OK,
+        statusCode: httpStatus.CREATED,
         success: true,
         message: 'Blog created successfully',
         data: populatedBlog,
@@ -71,8 +71,34 @@ const deleteBlog = catchAsync(async (req, res) => {
     });
 });
 
+
+const fetchBlogs = catchAsync(async (req, res) => {
+    const { search, sortBy, sortOrder, filter } = req.query;
+
+    const filters = {
+        search: search as string,
+        filter: filter as string,
+    };
+
+    const sort = {
+        sortBy: sortBy as string,
+        sortOrder: sortOrder as string,
+    };
+
+    // Fetch blogs
+    const blogs = await blogService.getAllBlogs(filters, sort);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Blogs fetched successfully',
+        data: blogs,
+    });
+});
+
 export const blogController = {
     createBlogPost,
     updateBlog,
-    deleteBlog
+    deleteBlog,
+    fetchBlogs
 };

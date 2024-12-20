@@ -5,6 +5,7 @@ import catchAsync from '../../utilitis/catchAsync';
 import sendResponse from '../../utilitis/sendResponse';
 import jwt from 'jsonwebtoken';
 import config from '../../config';
+import AppError from '../../errors/AppError';
 
 
 const registerUser = catchAsync(async (req, res) => {
@@ -29,7 +30,8 @@ const loginUser = catchAsync(async (req, res) => {
     const { email, password } = req.body;
     const user = await userService.findUserByEmail(email);
     if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(401).json({ success: false, message: 'Invalid credentials' });
+        // return res.status(401).json({ success: false, message: 'Invalid credentials' });
+        throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid credentials');
     }
 
     const token = jwt.sign({ id: user._id, role: user.role }, config.jwt_secret || '', {
