@@ -15,6 +15,7 @@ router.put('/:id', authenticateUser, validateRequest(blogValidation.blogValidati
 router.delete('/:id', authenticateUser, blogController.deleteBlog);
 router.get('/', blogController.fetchBlogs);
 router.patch('/admin/users/:userId/block', authenticateUser, isAdmin, blogController.blockUserController);
+router.delete('/admin/blogs/:id', authenticateUser, isAdmin, blogController.deleteBlogController);
 
 
 export const blogRoutes = router;

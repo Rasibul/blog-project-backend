@@ -58,6 +58,13 @@ const blockUser = async (userId: string) => {
     return user;
 }
 
+const deleteBlog = async (blogId: string) => {
+    const blog = await blogModel.findByIdAndDelete(blogId);
+    if (!blog) {
+        throw new AppError(httpStatus.NOT_FOUND, 'Blog not found');
+    }
+};
+
 
 export const blogService = {
     createBlog,
@@ -65,5 +72,6 @@ export const blogService = {
     findBlogById,
     deleteBlogById,
     getAllBlogs,
-    blockUser
+    blockUser,
+    deleteBlog
 }

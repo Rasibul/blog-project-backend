@@ -107,10 +107,27 @@ const blockUserController = catchAsync(async (req, res) => {
     })
 })
 
+
+const deleteBlogController = catchAsync(async (req, res) => {
+    const { id } = req.params;
+
+    const deleteBlog = await blogService.deleteBlog(id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Blog deleted successfully',
+        data: deleteBlog
+    });
+})
+
+
+
 export const blogController = {
     createBlogPost,
     updateBlog,
     deleteBlog,
     fetchBlogs,
-    blockUserController
+    blockUserController,
+    deleteBlogController
 };
