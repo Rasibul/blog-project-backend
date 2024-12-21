@@ -50,10 +50,8 @@ const getAllBlogs = async (filters: any, sort: any) => {
 
 const blockUser = async (userId: string) => {
     const user = await userModel.findById(userId);
-    console.log(user)
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, "User not found");
-
     }
     user.isBlocked = true;
     await user.save();
