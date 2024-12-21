@@ -10,10 +10,10 @@ import isAdmin from '../../middlewares/isAdmin';
 const router = express.Router();
 
 
-router.post('/', authenticateUser, validateRequest(blogValidation.blogValidationSchema), blogController.createBlogPost);
-router.put('/:id', authenticateUser, validateRequest(blogValidation.blogValidationSchema), blogController.updateBlog);
-router.delete('/:id', authenticateUser, blogController.deleteBlog);
-router.get('/', blogController.fetchBlogs);
+router.post('/blogs', authenticateUser, validateRequest(blogValidation.blogValidationSchema), blogController.createBlogPost);
+router.put('/blogs/:id', authenticateUser, validateRequest(blogValidation.blogValidationSchema), blogController.updateBlog);
+router.delete('/blogs/:id', authenticateUser, blogController.deleteBlog);
+router.get('/blogs', blogController.fetchBlogs);
 router.patch('/admin/users/:userId/block', authenticateUser, isAdmin, blogController.blockUserController);
 router.delete('/admin/blogs/:id', authenticateUser, isAdmin, blogController.deleteBlogController);
 

@@ -18,7 +18,7 @@ const registerUser = catchAsync(async (req, res) => {
         password: hashedPassword,
     });
     sendResponse(res, {
-        statusCode: httpStatus.OK,
+        statusCode: httpStatus.CREATED,
         success: true,
         message: 'User registered successfully',
         data: { _id: user._id, name: user.name, email: user.email },

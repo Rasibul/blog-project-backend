@@ -5,6 +5,7 @@ import { blogService } from "./blog.service";
 import { blogModel } from "./blog.model";
 import AppError from "../../errors/AppError";
 
+
 const createBlogPost = catchAsync(async (req, res) => {
     const { title, content } = req.body;
     const author = req?.user?.id;
@@ -68,6 +69,7 @@ const deleteBlog = catchAsync(async (req, res) => {
     res.status(200).json({
         success: true,
         message: 'Blog deleted successfully',
+        statusCode: httpStatus.OK
     });
 });
 
@@ -98,27 +100,25 @@ const fetchBlogs = catchAsync(async (req, res) => {
 
 const blockUserController = catchAsync(async (req, res) => {
     const { userId } = req.params;
-    const blockedUser = await blogService.blockUser(userId);
-    sendResponse(res, {
-        statusCode: httpStatus.OK,
+    await blogService.blockUser(userId);
+    res.status(200).json({
         success: true,
         message: 'User blocked successfully',
-        data: blockedUser
-    })
+        statusCode: httpStatus.OK
+    });
+
 })
 
 
 const deleteBlogController = catchAsync(async (req, res) => {
     const { id } = req.params;
-
-    const deleteBlog = await blogService.deleteBlog(id);
-
-    sendResponse(res, {
-        statusCode: httpStatus.OK,
+    await blogService.deleteBlog(id);
+    res.status(200).json({
         success: true,
         message: 'Blog deleted successfully',
-        data: deleteBlog
+        statusCode: httpStatus.OK
     });
+
 })
 
 
